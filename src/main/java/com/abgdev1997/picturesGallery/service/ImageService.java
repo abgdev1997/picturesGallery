@@ -30,4 +30,8 @@ public class ImageService {
     public void save(Image image){
         imageRepository.save(image);
     }
+
+    public void delete(String id){
+        imageRepository.deleteById(id);
+    }
 }
