@@ -31,6 +31,7 @@ public class CloudinaryController {
      * List of images
      * @return list
      */
+    @GetMapping("/list")
     public ResponseEntity<List<Image>> list(){
         List<Image> list = imagenService.list();
         return new ResponseEntity(list, HttpStatus.OK);
