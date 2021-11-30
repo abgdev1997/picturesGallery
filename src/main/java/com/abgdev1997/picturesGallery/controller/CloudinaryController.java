@@ -30,6 +30,17 @@ public class CloudinaryController {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * Delete image
+     * @param id
+     * @return Map result and HttpStatus.OK
+     * @throws IOException
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map> upload(@PathVariable("id") String id) throws IOException {
+        Map result = cloudinaryService.delete(id);
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 
 
 }
