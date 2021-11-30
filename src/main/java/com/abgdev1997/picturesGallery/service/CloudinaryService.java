@@ -27,7 +27,7 @@ public class CloudinaryService {
     }
 
     /**
-     * Upload to Cloudinary
+     * Upload Image
      * @param multipartFile
      * @return Map result
      * @throws IOException
@@ -43,8 +43,15 @@ public class CloudinaryService {
         return result;
     }
 
-    public Map delete(String id){
-        return null;
+    /**
+     * Delete Image
+     * @param id
+     * @return Map result
+     * @throws IOException
+     */
+    public Map delete(String id) throws IOException {
+        Map result = cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
+        return result;
     }
 
     /**
