@@ -1,7 +1,9 @@
 package com.abgdev1997.picturesGallery.controller;
 
 import com.abgdev1997.picturesGallery.dto.MessageDto;
+import com.abgdev1997.picturesGallery.entity.Image;
 import com.abgdev1997.picturesGallery.service.CloudinaryService;
+import com.abgdev1997.picturesGallery.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,6 +24,18 @@ public class CloudinaryController {
 
     @Autowired
     CloudinaryService cloudinaryService;
+
+    @Autowired
+    ImageService imagenService;
+
+    /**
+     * List of images
+     * @return list
+     */
+    public ResponseEntity<List<Image>> list(){
+        List<Image> list = imagenService.list();
+        return new ResponseEntity(list, HttpStatus.OK);
+    }
 
     /**
      * Upload image
