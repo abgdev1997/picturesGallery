@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -67,9 +66,14 @@ public class CloudinaryController {
      * @throws IOException
      */
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Map> upload(@PathVariable("id") String id) throws IOException {
-        Map result = cloudinaryService.delete(id);
-        return new ResponseEntity(result, HttpStatus.OK);
+    public ResponseEntity<?> upload(@PathVariable("id") Long id) throws IOException {
+        if(!imagenService.exists(id)){
+            return new ResponseEntity(new MessageDto("Image don't exists!"), HttpStatus.NOT_FOUND);
+        }
+        Image image = imagenService.getOne(id).get();
+        Map result = cloudinaryService.delete(image.getImagenId());
+        imagenService.delete(id);
+        return new ResponseEntity(new MessageDto("Delete image!"), HttpStatus.OK);
     }
 
 

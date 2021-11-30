@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -14,6 +15,10 @@ public class ImageService {
 
     @Autowired
     ImageRepository imageRepository;
+
+    public Optional<Image> getOne(Long id){
+        return imageRepository.findById(id);
+    }
 
     /**
      * Find a list with all the images
@@ -31,7 +36,11 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public void delete(String id){
+    public void delete(Long id){
         imageRepository.deleteById(id);
+    }
+
+    public boolean exists(Long id){
+        return imageRepository.existsById(id);
     }
 }
