@@ -23,5 +23,11 @@ public class ImageService {
         return imageRepository.findByOrderById();
     }
 
-
+    /**
+     * Save a image
+     * @param image
+     */
+    public void save(Image image){
+        imageRepository.save(image);
+    }
 }
