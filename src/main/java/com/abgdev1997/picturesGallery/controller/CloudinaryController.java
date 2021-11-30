@@ -44,7 +44,7 @@ public class CloudinaryController {
      * @throws IOException
      */
     @PostMapping("/upload")
-    public ResponseEntity<Map> upload(@RequestParam MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<?> upload(@RequestParam MultipartFile multipartFile) throws IOException {
         //Leemos la imagen
         BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
         //Comprobamos si es una imagen
@@ -52,7 +52,12 @@ public class CloudinaryController {
             return new ResponseEntity(new MessageDto("This isn't a image!"), HttpStatus.BAD_REQUEST);
         }
         Map result = cloudinaryService.upload(multipartFile);
-        return new ResponseEntity(result, HttpStatus.OK);
+        Image image = new Image(
+                (String)result.get("original_filename"),
+                (String)result.get("url"),
+                (String)result.get("public_id"));
+        imagenService.save(image);
+        return new ResponseEntity(new MessageDto("Upload image!"), HttpStatus.OK);
     }
 
     /**

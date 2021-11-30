@@ -15,7 +15,7 @@ public class Image {
     private String imagenUrl;
     private String imagenId;
 
-    public Image() {
+    public Image(String original_filename, String url, String public_id) {
     }
 
     public Image(Long id, String name, String imagenUrl, String imagenId) {
