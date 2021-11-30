@@ -1,6 +1,7 @@
 package com.abgdev1997.picturesGallery.service;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class CloudinaryService {
@@ -24,8 +26,21 @@ public class CloudinaryService {
         cloudinary = new Cloudinary(valuesMap);
     }
 
-    public Map upload(MultipartFile multipartFile){
-        return null;
+    /**
+     * Upload to Cloudinary
+     * @param multipartFile
+     * @return Map result
+     * @throws IOException
+     */
+    public Map upload(MultipartFile multipartFile) throws IOException {
+        //Convertimos el multipart
+        File file = convert(multipartFile);
+        //lo subimos a cloudinary
+        Map result = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        //Borramos el FileOutputStream
+        file.delete();
+
+        return result;
     }
 
     public Map delete(String id){
@@ -39,9 +54,9 @@ public class CloudinaryService {
      * @throws IOException
      */
     private File convert(MultipartFile multipartFile) throws IOException {
-        //Creamos un archivo para alojar el que llega por props
-        File file = new File(multipartFile.getOriginalFilename());
-        //Creamos un objeto FileOutputStream para poder guardar el archivo
+        //Creamos un archivo para alojar el nombre del multipart que llega por props
+        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        //Creamos un objeto FileOutputStream para poder guardar el archivo en forma file
         FileOutputStream fo = new FileOutputStream(file);
         fo.write(multipartFile.getBytes());
         fo.close();
